@@ -1,0 +1,6 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data/raw/GSE15852_ExpressionSet.rds
+data/processed/sample_info.rds
