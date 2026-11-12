@@ -60,7 +60,11 @@ Dataset link: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE15852
 
 GSE15852 is a human breast cancer gene expression dataset containing 43 breast tumor samples and their 43 paired normal tissue samples.
 
-The dataset contains a total of 86 samples. Gene expression measurements were generated using the Affymetrix Human Genome U133A microarray platform.
+The dataset contains a total of 86 samples from 43 patients, with one cancer sample and one corresponding normal tissue sample from each patient.
+
+Gene expression measurements were generated using the Affymetrix Human Genome U133A microarray platform (GPL96).
+
+The dataset contains 22,283 probe sets and 86 samples, resulting in an expression matrix of 22,283 × 86.
 
 This dataset will be used to compare gene expression levels between breast cancer and normal tissue samples.
 
@@ -68,20 +72,27 @@ This dataset will be used to compare gene expression levels between breast cance
 
 The main variables considered in this project include:
 
-Gene ID: Identifier of each measured gene.
+- **Probe Set ID:** Identifier of each measured probe set on the microarray platform.
+- **Gene Expression Values:** Expression measurements obtained from the microarray experiment.
+- **Sample ID:** Unique identifier assigned to each sample.
+- **Sample Group:** Indicates whether a sample belongs to the Cancer or Normal group.
+- **Patient ID:** Identifies the patient associated with each sample.
+- **Patient Pair:** Identifies the corresponding cancer and normal samples collected from the same patient.
 
-Gene Expression Values: Expression measurements obtained from the microarray experiment.
-
-Sample ID: Unique identifier for each sample.
-
-Sample Group: Indicates whether a sample is from cancer tissue or normal tissue.
-
-Patient Pair: Identifies the corresponding cancer and normal samples from the same patient.
-
-The final data structure and variable names will be confirmed during data import and inspection.
+During data inspection, the expression matrix was confirmed to contain 22,283 probe sets and 86 samples. The sample metadata was verified to contain 43 cancer samples and 43 normal samples from 43 paired patients. The sample order in the expression matrix was also confirmed to match the sample metadata.
 
 3.4 Ethical and Licensing Considerations
 
 This project uses publicly available gene expression data from the NCBI GEO database. The original dataset and its associated publication will be acknowledged in the references.
 
 No new biological samples or personal information will be collected for this project. The dataset provider's usage conditions will be followed.
+
+3.5 Data Acquisition and Initial Preparation
+
+The GSE15852 dataset was downloaded from the NCBI Gene Expression Omnibus (GEO) database using the GEOquery package in R.
+
+The downloaded dataset was imported into R as an ExpressionSet object. The gene expression measurements and sample metadata were extracted separately for further analysis.
+
+The sample metadata was processed to identify the sample groups and corresponding patient IDs. The dataset was verified to contain 43 cancer samples and 43 paired normal samples.
+
+The expression data and processed sample metadata were saved in RDS and CSV formats for subsequent analysis.
