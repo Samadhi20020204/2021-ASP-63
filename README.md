@@ -45,3 +45,43 @@ Which genes show significant differences in expression between cancer and normal
 Null Hypothesis (H0): There are no significant differences in gene expression between cancer and normal tissue samples.
 
 Alternative Hypothesis (H1): There are significant differences in gene expression between cancer and normal tissue samples.
+
+3. Data
+
+3.1 Dataset Source
+
+The gene expression dataset used in this project was obtained from the Gene Expression Omnibus (GEO), a public repository maintained by the National Center for Biotechnology Information (NCBI).
+
+The selected dataset is GSE15852.
+
+Dataset link: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE15852
+
+3.2 Dataset Description
+
+GSE15852 is a human breast cancer gene expression dataset containing 43 breast tumor samples and their 43 paired normal tissue samples.
+
+The dataset contains a total of 86 samples. Gene expression measurements were generated using the Affymetrix Human Genome U133A microarray platform.
+
+This dataset will be used to compare gene expression levels between breast cancer and normal tissue samples.
+
+3.3 Variables
+
+The main variables considered in this project include:
+
+Gene ID: Identifier of each measured gene.
+
+Gene Expression Values: Expression measurements obtained from the microarray experiment.
+
+Sample ID: Unique identifier for each sample.
+
+Sample Group: Indicates whether a sample is from cancer tissue or normal tissue.
+
+Patient Pair: Identifies the corresponding cancer and normal samples from the same patient.
+
+The final data structure and variable names will be confirmed during data import and inspection.
+
+3.4 Ethical and Licensing Considerations
+
+This project uses publicly available gene expression data from the NCBI GEO database. The original dataset and its associated publication will be acknowledged in the references.
+
+No new biological samples or personal information will be collected for this project. The dataset provider's usage conditions will be followed.
