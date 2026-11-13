@@ -96,3 +96,65 @@ The downloaded dataset was imported into R as an ExpressionSet object. The gene 
 The sample metadata was processed to identify the sample groups and corresponding patient IDs. The dataset was verified to contain 43 cancer samples and 43 paired normal samples.
 
 The expression data and processed sample metadata were saved in RDS and CSV formats for subsequent analysis.
+
+3.6 Expression Matrix Inspection
+
+The extracted gene expression matrix was inspected in R to understand its structure, data types, and overall quality before further analysis.
+
+The following characteristics were identified:
+
+- Number of probe sets (rows): 22,283
+- Number of samples (columns): 86
+- Data structure: Numerical matrix
+- Missing values: 0
+- Minimum expression value: 0.432452
+- Maximum expression value: 19,036
+
+Summary statistics were calculated to examine the distribution of gene expression measurements. The original expression data had a mean of 768.3 and a median of 444.038.
+
+No missing values were detected in the expression matrix.
+
+3.7 Log2 Transformation and Sample-wise Distribution Analysis
+
+A log2 transformation was applied to the expression matrix using the following formula:
+
+`log2(expression_data + 1)`
+
+This transformation was performed to reduce the numerical range of expression values and facilitate further exploratory analysis.
+
+After transformation, the summary statistics were:
+
+- Minimum: 0.5185
+- First Quartile: 7.3768
+- Median: 8.7978
+- Mean: 8.6509
+- Third Quartile: 9.9853
+- Maximum: 14.2165
+
+The expression distributions across the 86 samples were further examined using boxplots.
+
+Sample-wise mean and median expression values were calculated to investigate variations between samples.
+
+**Sample-wise median statistics:**
+- Minimum: 8.177
+- First Quartile: 8.396
+- Median: 8.677
+- Mean: 8.829
+- Maximum: 9.465
+
+**Sample-wise mean statistics:**
+- Minimum: 8.109
+- First Quartile: 8.246
+- Median: 8.470
+- Mean: 8.651
+- Maximum: 9.187
+
+The results indicated variation in expression distributions among samples. Further investigation of the original data preprocessing and normalization status is required before selecting additional normalization methods.
+
+3.8 Generated Output Files
+
+The sample-wise expression statistics were exported as a CSV file for future reference and further analysis.
+
+- `sample_statistics.csv`: Contains the mean and median log2-transformed expression values for each of the 86 samples.
+
+The analysis code was maintained in an R script to support reproducibility and future modifications.
