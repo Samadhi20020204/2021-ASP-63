@@ -1,160 +1,300 @@
-Differential Gene Expression Analysis Between Cancer and Normal Tissue Samples Using R
+# Breast Cancer Differential Gene Expression Analysis
 
-1. Title and Abstract
+## Abstract
 
-Project Title
+This project investigates gene expression differences between breast cancer and normal breast tissue using the publicly available GSE15852 dataset from the NCBI Gene Expression Omnibus (GEO). The dataset contains 86 samples from 43 patients, with paired cancer and normal tissue samples. Gene expression analysis was performed using the `limma` R package. Differentially expressed probes were identified using the Benjamini–Hochberg adjusted p-value method. Gene annotation was performed using the Affymetrix Human Genome U133A annotation database. A total of 4,274 probes were identified as significantly differentially expressed. Volcano plots and heatmaps were generated to visualize the findings.
 
-Differential Gene Expression Analysis Between Cancer and Normal Tissue Samples Using R
+## 1. Introduction
 
-2. Introduction
+Gene expression analysis is an important bioinformatics approach for identifying genes associated with diseases. In cancer research, comparing gene expression patterns between cancerous and normal tissues can help identify molecular changes associated with cancer development.
 
-2.1 Background
+Breast cancer is one of the most common cancers worldwide. Studying differences in gene expression between breast cancer and normal breast tissue can provide useful information about the molecular characteristics of the disease.
 
-Gene expression is the process through which information stored in genes is used to produce functional products such as proteins. Gene expression levels can vary between different cell types and biological conditions.
+### 1.1 Aim
 
-Changes in gene expression may be associated with several diseases, including cancer. Therefore, analyzing gene expression data can help researchers understand biological differences between healthy and diseased tissues.
+The main aim of this project is to identify differentially expressed genes between breast cancer and normal breast tissue using bioinformatics techniques and statistical analysis in R.
 
-2.2 Research Problem
+### 1.2 Objectives
 
-Cancer is associated with changes in normal cellular processes, including gene expression. Identifying genes that show different expression levels between cancer and normal tissue samples is an important step in understanding these changes.
+- Obtain and prepare gene expression data from the NCBI GEO database.
+- Explore the expression dataset and sample distribution.
+- Perform differential gene expression analysis.
+- Identify significantly upregulated and downregulated probes.
+- Annotate probe IDs with gene symbols and gene names.
+- Visualize differential expression results using volcano plots and heatmaps.
 
-However, gene expression datasets may contain a large number of genes and samples. Analyzing these datasets manually can be difficult. Bioinformatics tools and statistical methods can help identify meaningful expression patterns.
+## 2. Dataset Description
 
-2.3 Research Aim
+The dataset used in this project was obtained from the NCBI Gene Expression Omnibus (GEO).
 
-The main aim of this project is to identify and analyze differentially expressed genes between cancer and normal tissue samples using bioinformatics techniques in R.
+| Attribute | Description |
+|---|---|
+| GEO accession | GSE15852 |
+| Organism | Homo sapiens |
+| Platform | GPL96 |
+| Technology | Affymetrix Human Genome U133A |
+| Total samples | 86 |
+| Cancer samples | 43 |
+| Normal samples | 43 |
+| Experimental design | Paired samples |
+| Total probe sets | 22,283 |
 
-2.4 Research Objectives
+Each of the 43 patients contributed one breast cancer tissue sample and one normal tissue sample.
 
-To obtain a publicly available gene expression dataset containing cancer and normal tissue samples.
+### 2.1 Experimental Design
 
-To inspect and preprocess the selected dataset using R.
+The dataset follows a paired experimental design. Each patient's cancer sample is compared with their corresponding normal sample.
 
-To explore gene expression patterns through data visualization.
+```mermaid
+flowchart TD
+    A["43 Patients"] --> B["Paired Tissue Samples"]
+    B --> C["43 Cancer Samples"]
+    B --> D["43 Normal Samples"]
+    C --> E["Gene Expression Analysis"]
+    D --> E
+    E --> F["Differential Expression Results"]
+```
 
-To identify genes with significant expression differences between cancer and normal tissue samples.
+## 3. Methodology
 
-To interpret and present the findings using appropriate statistical methods and visualizations.
+The analysis was conducted using R and RStudio. The workflow consisted of data acquisition, preprocessing, exploratory analysis, differential expression analysis, gene annotation, and visualization.
 
-2.5 Research Question
+### 3.1 Overall Workflow
 
-Which genes show significant differences in expression between cancer and normal tissue samples?
+```mermaid
+flowchart TD
+    A["GEO Dataset: GSE15852"] --> B["Data Download"]
+    B --> C["Data Preparation"]
+    C --> D["Expression Matrix"]
+    D --> E["Exploratory Data Analysis"]
+    E --> F["Sample Distribution Analysis"]
+    F --> G["Differential Expression Analysis"]
+    G --> H["Gene Annotation"]
+    H --> I["Visualization"]
+    I --> J["Biological Interpretation"]
+```
 
-2.6 Hypothesis
+### 3.2 Data Acquisition and Preparation
 
-Null Hypothesis (H0): There are no significant differences in gene expression between cancer and normal tissue samples.
+The GSE15852 dataset was obtained from the NCBI GEO database.
 
-Alternative Hypothesis (H1): There are significant differences in gene expression between cancer and normal tissue samples.
+The expression matrix was prepared for downstream analysis. The final expression matrix contained:
 
-3. Data
+- 22,283 probe sets
+- 86 samples
 
-3.1 Dataset Source
+The sample information was organized according to cancer and normal tissue groups. Patient identifiers were used to maintain the paired sample structure.
 
-The gene expression dataset used in this project was obtained from the Gene Expression Omnibus (GEO), a public repository maintained by the National Center for Biotechnology Information (NCBI).
+### 3.3 Exploratory Data Analysis
 
-The selected dataset is GSE15852.
+Exploratory data analysis was performed to understand the expression dataset and sample characteristics.
 
-Dataset link: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE15852
+The following activities were carried out:
 
-3.2 Dataset Description
+- Inspection of the expression matrix dimensions.
+- Examination of sample information.
+- Calculation of sample-wise statistical summaries.
+- Verification of cancer and normal sample distribution.
+- Checking the consistency of sample identifiers.
 
-GSE15852 is a human breast cancer gene expression dataset containing 43 breast tumor samples and their 43 paired normal tissue samples.
+### 3.4 Differential Gene Expression Analysis
 
-The dataset contains a total of 86 samples from 43 patients, with one cancer sample and one corresponding normal tissue sample from each patient.
+Differential expression analysis was performed using the `limma` package.
 
-Gene expression measurements were generated using the Affymetrix Human Genome U133A microarray platform (GPL96).
+A paired linear model was constructed using patient identifiers and tissue group information. The model was fitted using `lmFit()` and empirical Bayes moderation was applied using `eBayes()`.
 
-The dataset contains 22,283 probe sets and 86 samples, resulting in an expression matrix of 22,283 × 86.
+The `topTable()` function was used to extract differential expression statistics.
 
-This dataset will be used to compare gene expression levels between breast cancer and normal tissue samples.
+The Benjamini–Hochberg method was applied to adjust p-values for multiple testing.
 
-3.3 Variables
+**Significance criterion:**
 
-The main variables considered in this project include:
+`Adjusted p-value < 0.05`
 
-- **Probe Set ID:** Identifier of each measured probe set on the microarray platform.
-- **Gene Expression Values:** Expression measurements obtained from the microarray experiment.
-- **Sample ID:** Unique identifier assigned to each sample.
-- **Sample Group:** Indicates whether a sample belongs to the Cancer or Normal group.
-- **Patient ID:** Identifies the patient associated with each sample.
-- **Patient Pair:** Identifies the corresponding cancer and normal samples collected from the same patient.
+The log fold change (logFC) was used to determine the direction of expression:
 
-During data inspection, the expression matrix was confirmed to contain 22,283 probe sets and 86 samples. The sample metadata was verified to contain 43 cancer samples and 43 normal samples from 43 paired patients. The sample order in the expression matrix was also confirmed to match the sample metadata.
+- Positive logFC: Higher expression in cancer tissue.
+- Negative logFC: Lower expression in cancer tissue.
 
-3.4 Ethical and Licensing Considerations
+### 3.5 Gene Annotation
 
-This project uses publicly available gene expression data from the NCBI GEO database. The original dataset and its associated publication will be acknowledged in the references.
+Probe IDs were annotated using the `hgu133a.db` annotation package.
 
-No new biological samples or personal information will be collected for this project. The dataset provider's usage conditions will be followed.
+The following information was retrieved:
 
-3.5 Data Acquisition and Initial Preparation
+- Gene symbols
+- Gene names
 
-The GSE15852 dataset was downloaded from the NCBI Gene Expression Omnibus (GEO) database using the GEOquery package in R.
+The `mapIds()` function from `AnnotationDbi` was used to map probe IDs to gene symbols and gene names.
 
-The downloaded dataset was imported into R as an ExpressionSet object. The gene expression measurements and sample metadata were extracted separately for further analysis.
+For probes with multiple possible mappings, the first mapping was selected using `multiVals = "first"`.
 
-The sample metadata was processed to identify the sample groups and corresponding patient IDs. The dataset was verified to contain 43 cancer samples and 43 paired normal samples.
+### 3.6 Data Visualization
 
-The expression data and processed sample metadata were saved in RDS and CSV formats for subsequent analysis.
+The following visualizations were generated:
 
-3.6 Expression Matrix Inspection
+- Volcano plot to display significantly upregulated and downregulated probes.
+- Heatmap of the top 50 significant probes to examine expression patterns across samples.
 
-The extracted gene expression matrix was inspected in R to understand its structure, data types, and overall quality before further analysis.
+## 4. Results
 
-The following characteristics were identified:
+### 4.1 Differential Expression Results
 
-- Number of probe sets (rows): 22,283
-- Number of samples (columns): 86
-- Data structure: Numerical matrix
-- Missing values: 0
-- Minimum expression value: 0.432452
-- Maximum expression value: 19,036
+A total of 22,283 probe sets were analyzed.
 
-Summary statistics were calculated to examine the distribution of gene expression measurements. The original expression data had a mean of 768.3 and a median of 444.038.
+Using an adjusted p-value threshold of 0.05, 4,274 probes were identified as significantly differentially expressed.
 
-No missing values were detected in the expression matrix.
+| Result | Number of probes |
+|---|---:|
+| Total analyzed probes | 22,283 |
+| Significant probes | 4,274 |
+| Upregulated probes | 1,306 |
+| Downregulated probes | 2,968 |
 
-3.7 Log2 Transformation and Sample-wise Distribution Analysis
+Upregulated probes showed higher expression in cancer tissue, whereas downregulated probes showed lower expression in cancer tissue.
 
-A log2 transformation was applied to the expression matrix using the following formula:
+### 4.2 Volcano Plot
 
-`log2(expression_data + 1)`
+The volcano plot illustrates the relationship between log fold change and adjusted p-values.
 
-This transformation was performed to reduce the numerical range of expression values and facilitate further exploratory analysis.
+- Red points represent significantly upregulated probes.
+- Blue points represent significantly downregulated probes.
+- Grey points represent non-significant probes.
 
-After transformation, the summary statistics were:
+![Volcano Plot](results/volcano_plot.png)
 
-- Minimum: 0.5185
-- First Quartile: 7.3768
-- Median: 8.7978
-- Mean: 8.6509
-- Third Quartile: 9.9853
-- Maximum: 14.2165
+**Figure 1:** Volcano plot showing differentially expressed probes between breast cancer and normal tissue.
 
-The expression distributions across the 86 samples were further examined using boxplots.
+### 4.3 Heatmap Analysis
 
-Sample-wise mean and median expression values were calculated to investigate variations between samples.
+A heatmap was generated using the top 50 significant probes. Expression values were scaled across rows to highlight relative expression patterns.
 
-**Sample-wise median statistics:**
-- Minimum: 8.177
-- First Quartile: 8.396
-- Median: 8.677
-- Mean: 8.829
-- Maximum: 9.465
+![Top 50 Genes Heatmap](results/heatmap_top50_genes.png)
 
-**Sample-wise mean statistics:**
-- Minimum: 8.109
-- First Quartile: 8.246
-- Median: 8.470
-- Mean: 8.651
-- Maximum: 9.187
+**Figure 2:** Heatmap showing the expression patterns of the top 50 significant probes across the samples.
 
-The results indicated variation in expression distributions among samples. Further investigation of the original data preprocessing and normalization status is required before selecting additional normalization methods.
+### 4.4 Gene Annotation Results
 
-3.8 Generated Output Files
+Probe annotation was performed using the Affymetrix Human Genome U133A annotation database.
 
-The sample-wise expression statistics were exported as a CSV file for future reference and further analysis.
+| Annotation result | Number |
+|---|---:|
+| Total probes | 22,283 |
+| Successfully annotated probes | 21,056 |
+| Probes without gene symbols | 1,227 |
+| Significant probes | 4,274 |
+| Annotated significant probes | 4,138 |
+| Significant probes without gene symbols | 136 |
+| Unique annotated gene symbols among significant probes | 3,450 |
 
-- `sample_statistics.csv`: Contains the mean and median log2-transformed expression values for each of the 86 samples.
+The annotation results provide gene-level information for interpreting the differential expression findings. Multiple probes may map to the same gene symbol.
 
-The analysis code was maintained in an R script to support reproducibility and future modifications.
+### 4.5 Generated Output Files
+
+The analysis generated the following output files.
+
+| File | Description |
+|---|---|
+| `all_differential_expression_results.csv` | Complete differential expression results |
+| `significant_genes.csv` | Significant probes |
+| `upregulated_genes.csv` | Upregulated probes |
+| `downregulated_genes.csv` | Downregulated probes |
+| `annotated_gene_expression_results.csv` | Complete annotated results |
+| `annotated_significant_genes.csv` | Annotated significant probes |
+| `annotated_upregulated_genes.csv` | Annotated upregulated probes |
+| `annotated_downregulated_genes.csv` | Annotated downregulated probes |
+| `sample_statistics.csv` | Sample-wise statistical summaries |
+| `volcano_plot.png` | Volcano plot |
+| `heatmap_top50_genes.png` | Heatmap of top 50 significant probes |
+
+## 5. Discussion
+
+The differential expression analysis identified 4,274 significantly differentially expressed probes between breast cancer and normal breast tissue.
+
+Among these, 1,306 probes were upregulated and 2,968 probes were downregulated in cancer tissue based on their log fold change values.
+
+Gene annotation successfully mapped 21,056 probes to gene symbols. Among the significant probes, 4,138 had gene-symbol annotations, representing 3,450 unique gene symbols.
+
+The volcano plot provides an overview of the statistical significance and direction of expression changes. The heatmap provides a visual representation of expression patterns among the top 50 significant probes.
+
+These findings demonstrate differences in gene expression between the two tissue groups. However, further biological interpretation and validation are required before drawing conclusions about the roles of individual genes in breast cancer.
+
+## 6. Conclusion and Future Work
+
+This project successfully performed differential gene expression analysis using the GSE15852 breast cancer dataset.
+
+The analysis identified 4,274 significantly differentially expressed probes and annotated a substantial proportion of them using the Affymetrix annotation database.
+
+Volcano plot and heatmap visualizations were generated to summarize the results.
+
+Future work may include:
+
+- Gene Ontology (GO) enrichment analysis.
+- Pathway enrichment analysis.
+- Investigation of important cancer-related genes.
+- Biological interpretation of the identified gene sets.
+- Further validation using independent datasets.
+
+## 7. Reproducibility
+
+### 7.1 Software and Packages
+
+The analysis was performed using:
+
+- R version 4.6.2
+- Bioconductor version 3.23
+- RStudio
+
+Main R packages:
+
+- `GEOquery`
+- `Biobase`
+- `limma`
+- `hgu133a.db`
+- `AnnotationDbi`
+- `org.Hs.eg.db`
+- `pheatmap`
+
+### 7.2 Project Structure
+
+```text
+2021-ASP-63/
+│
+├── code/
+│   ├── 01_data_download_and_preparation.R
+│   ├── 02_exploratory_data_analysis.R
+│   ├── 03_sample_distribution.R
+│   └── 04_differential_expression_analysis.R
+│
+├── data/
+│
+├── results/
+│   ├── all_differential_expression_results.csv
+│   ├── annotated_downregulated_genes.csv
+│   ├── annotated_gene_expression_results.csv
+│   ├── annotated_significant_genes.csv
+│   ├── annotated_upregulated_genes.csv
+│   ├── downregulated_genes.csv
+│   ├── heatmap_top50_genes.png
+│   ├── sample_statistics.csv
+│   ├── significant_genes.csv
+│   ├── upregulated_genes.csv
+│   └── volcano_plot.png
+│
+└── README.md
+```
+
+### 7.3 Running the Analysis
+
+1. Clone or download the project repository.
+2. Open the RStudio project.
+3. Install the required R packages if they are not already installed.
+4. Run the R scripts in numerical order from the `code/` directory.
+5. Check the generated CSV files and visualizations in the `results/` directory.
+
+## 8. References
+
+1. NCBI Gene Expression Omnibus (GEO). GSE15852 dataset. https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE15852
+2. Ritchie, M. E., et al. (2015). Limma powers differential expression analyses for RNA-sequencing and microarray studies. *Nucleic Acids Research*, 43(7), e47. https://doi.org/10.1093/nar/gkv007
+3. Bioconductor. Limma package documentation. https://bioconductor.org/packages/limma/
+4. Bioconductor. hgu133a.db package documentation. https://bioconductor.org/packages/hgu133a.db/
