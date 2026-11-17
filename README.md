@@ -317,6 +317,9 @@ Main R packages:
 
 ### 7.2 Project Structure
 
+The project is organized into the following directory structure:
+
+```text
 2021-ASP-63/
 │
 ├── code/
@@ -348,7 +351,7 @@ Main R packages:
 ├── .gitignore
 ├── 2021-ASP-63.Rproj
 └── README.md
-
+```
 
 ### 7.3 Running the Analysis
 
