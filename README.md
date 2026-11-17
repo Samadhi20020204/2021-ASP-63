@@ -136,6 +136,7 @@ The following visualizations were generated:
 - Volcano plot to display significantly upregulated and downregulated probes.
 - Heatmap of the top 50 significant probes to examine expression patterns across samples.
 
+
 ## 4. Results
 
 ### 4.1 Differential Expression Results
@@ -189,7 +190,61 @@ Probe annotation was performed using the Affymetrix Human Genome U133A annotatio
 
 The annotation results provide gene-level information for interpreting the differential expression findings. Multiple probes may map to the same gene symbol.
 
-### 4.5 Generated Output Files
+### 4.5 Gene Ontology (GO) Biological Process Enrichment Analysis
+
+GO Biological Process enrichment analysis was performed using the `clusterProfiler` R package to identify biological processes over-represented among upregulated and downregulated genes.
+
+The analysis used the following parameters:
+
+- Upregulated genes: 1,111 Entrez Gene IDs
+- Downregulated genes: 2,388 Entrez Gene IDs
+- Background genes: 13,041 Entrez Gene IDs
+- GO category: Biological Process (BP)
+- Multiple testing correction: Benjamini-Hochberg (BH)
+- Adjusted p-value threshold: 0.05
+
+A total of 208 enriched biological processes were identified among upregulated genes, while 483 enriched biological processes were identified among downregulated genes.
+
+| Analysis | Number of enriched GO terms |
+|---|---:|
+| Upregulated genes | 208 |
+| Downregulated genes | 483 |
+
+**Top enriched biological processes**
+
+**Upregulated genes:**
+- Chromosome organization
+- Regulation of DNA metabolic process
+- Regulation of chromosome organization
+- RNA splicing
+- Cell cycle phase transition
+
+**Downregulated genes:**
+- Angiogenesis
+- Monocarboxylic acid metabolic process
+- Regulation of angiogenesis
+- Circulatory system process
+- Fatty acid metabolic process
+
+These results indicate biological processes that are statistically over-represented in the respective gene sets. They suggest potential biological differences between breast cancer and normal tissue but do not independently establish pathway activation or suppression.
+
+### 4.6 GO Enrichment Visualizations
+
+Dot plots were generated to visualize the top 15 enriched biological processes for both upregulated and downregulated gene sets.
+
+**Upregulated Genes**
+
+![GO Enrichment Dotplot - Upregulated Genes](results/GO_upregulated_dotplot.png)
+
+**Figure 3:** GO Biological Process enrichment dot plot for upregulated genes.
+
+**Downregulated Genes**
+
+![GO Enrichment Dotplot - Downregulated Genes](results/GO_downregulated_dotplot.png)
+
+**Figure 4:** GO Biological Process enrichment dot plot for downregulated genes.
+
+### 4.7 Generated Output Files
 
 The analysis generated the following output files.
 
@@ -206,6 +261,10 @@ The analysis generated the following output files.
 | `sample_statistics.csv` | Sample-wise statistical summaries |
 | `volcano_plot.png` | Volcano plot |
 | `heatmap_top50_genes.png` | Heatmap of top 50 significant probes |
+| `GO_upregulated_results.csv` | GO enrichment results for upregulated genes |
+| `GO_downregulated_results.csv` | GO enrichment results for downregulated genes |
+| `GO_upregulated_dotplot.png` | GO enrichment dot plot for upregulated genes |
+| `GO_downregulated_dotplot.png` | GO enrichment dot plot for downregulated genes |
 
 ## 5. Discussion
 
