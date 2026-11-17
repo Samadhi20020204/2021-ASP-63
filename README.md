@@ -41,6 +41,10 @@ The dataset used in this project was obtained from the NCBI Gene Expression Omni
 
 Each of the 43 patients contributed one breast cancer tissue sample and one normal tissue sample.
 
+**Data Ethics and Usage**
+
+The dataset used in this project was obtained from the publicly accessible NCBI Gene Expression Omnibus (GEO) under accession number GSE15852. It is used for academic research, and the original dataset and related publication are acknowledged in the References section. No new human participants were recruited for this project, and no directly identifiable personal information was collected or used in the analysis. Users should refer to the original GEO record and its linked publication for further information about the dataset and its conditions of use.
+
 ### 2.1 Experimental Design
 
 The dataset follows a paired experimental design. Each patient's cancer sample is compared with their corresponding normal sample.
