@@ -282,22 +282,17 @@ The volcano plot provides an overview of the statistical significance and direct
 
 These findings demonstrate differences in gene expression between the two tissue groups. However, further biological interpretation and validation are required before drawing conclusions about the roles of individual genes in breast cancer.
 
-## 6. Conclusion and Future Work
+### Future Work
 
-This project successfully performed differential gene expression analysis using the GSE15852 breast cancer dataset.
+Several improvements can be considered for future development of this project:
 
-The analysis identified 4,274 significantly differentially expressed probes and annotated a substantial proportion of them using the Affymetrix annotation database.
+- **Pathway Analysis:** Extend the functional analysis using additional pathway databases such as KEGG and Reactome to gain further biological insights.
+- **Candidate Gene Investigation:** Investigate important differentially expressed genes using relevant scientific literature and biological interaction networks.
+- **Independent Dataset Validation:** Validate the identified differentially expressed genes using independent breast cancer gene expression datasets.
+- **Clinical Data Integration:** Explore associations between gene expression patterns and available clinical or molecular subtype information.
+- **Classification Models:** Investigate machine learning approaches for distinguishing breast cancer samples from normal samples using selected gene expression features, with appropriate independent validation.
 
-Volcano plot and heatmap visualizations were generated to summarize the results.
-
-Future work may include:
-
-- Gene Ontology (GO) enrichment analysis.
-- Pathway enrichment analysis.
-- Investigation of important cancer-related genes.
-- Biological interpretation of the identified gene sets.
-- Further validation using independent datasets.
-
+  
 ## 7. Reproducibility
 
 ### 7.1 Software and Packages
@@ -310,42 +305,50 @@ The analysis was performed using:
 
 Main R packages:
 
-- `GEOquery`
-- `Biobase`
-- `limma`
-- `hgu133a.db`
-- `AnnotationDbi`
-- `org.Hs.eg.db`
-- `pheatmap`
+- GEOquery
+- Biobase
+- limma
+- hgu133a.db
+- AnnotationDbi
+- org.Hs.eg.db
+- clusterProfiler
+- enrichplot
+- pheatmap
 
 ### 7.2 Project Structure
 
-```text
 2021-ASP-63/
 │
 ├── code/
 │   ├── 01_data_download_and_preparation.R
 │   ├── 02_exploratory_data_analysis.R
 │   ├── 03_sample_distribution.R
-│   └── 04_differential_expression_analysis.R
+│   ├── 04_differential_expression_analysis.R
+│   └── 05_GO_enrichment_analysis.R
 │
 ├── data/
 │
 ├── results/
 │   ├── all_differential_expression_results.csv
-│   ├── annotated_downregulated_genes.csv
+│   ├── significant_genes.csv
+│   ├── upregulated_genes.csv
+│   ├── downregulated_genes.csv
 │   ├── annotated_gene_expression_results.csv
 │   ├── annotated_significant_genes.csv
 │   ├── annotated_upregulated_genes.csv
-│   ├── downregulated_genes.csv
-│   ├── heatmap_top50_genes.png
+│   ├── annotated_downregulated_genes.csv
 │   ├── sample_statistics.csv
-│   ├── significant_genes.csv
-│   ├── upregulated_genes.csv
-│   └── volcano_plot.png
+│   ├── GO_upregulated_results.csv
+│   ├── GO_downregulated_results.csv
+│   ├── volcano_plot.png
+│   ├── heatmap_top50_genes.png
+│   ├── GO_upregulated_dotplot.png
+│   └── GO_downregulated_dotplot.png
 │
+├── .gitignore
+├── 2021-ASP-63.Rproj
 └── README.md
-```
+
 
 ### 7.3 Running the Analysis
 
