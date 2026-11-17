@@ -182,6 +182,10 @@ print(range(log_expression))
 
 # 10. Prepare Paired Experimental Design
 
+# Set sample IDs as row names
+rownames(sample_info) <- sample_info$geo_accession
+
+
 # Set group order
 sample_info$group <- factor(
   sample_info$group,
