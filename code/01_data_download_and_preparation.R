@@ -15,18 +15,14 @@ dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 library(GEOquery)
 library(Biobase)
 
-# 3. Download GEO dataset
+# 3. Load previously downloaded GEO dataset
 
-gse <- getGEO(
-  "GSE15852",
-  GSEMatrix = TRUE,
-  getGPL = FALSE,
-  destdir = "data/raw"
+eset <- readRDS(
+  "data/raw/GSE15852_ExpressionSet.rds"
 )
 
-# 4. Extract ExpressionSet
-
-eset <- gse[[1]]
+# Check ExpressionSet
+print(eset)
 
 # Save a local copy of the ExpressionSet
 # This file is excluded from GitHub using .gitignore
